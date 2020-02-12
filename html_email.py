@@ -14,25 +14,29 @@ Akash saini | Globallogic
 '''
 
 #The mail addresses and password
-sender_address = 'to@gmail.com'
+sender_address = 'from@gmail.com'
 sender_pass = 'password'
-receiver_address = 'from@gmail.com'
+receiver_address = 'to@globallogic.com'
+cc = 'cc@globallogic.com'
+bcc = 'bcc@gmail.com'
+
+rcpt = cc.split(",") + [receiver_address] + bcc.split(",")
 
 #Setup the MIME
 message = MIMEMultipart()
 message['From'] = sender_address
 message['To'] = receiver_address
-message['Subject'] = 'A test mail sent by Python. It has an attachment.'   #The subject line
+message['Subject'] = 'A test mail for HTML Email'   #The subject line
+message['Cc'] = cc_addr
 
 #The body and the attachments for the mail
 html = """\
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Table V04</title>
-</head>
-<body>
+                            <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                    <title>Table V04</title>
+                            </head>
 					<div>
 						<table border="1">
 							<tbody>
@@ -222,7 +226,7 @@ html = """\
 						</table>
 					</div>
 </body>
-</html>
+</html> 
 """
 
 message.attach(MIMEText(mail_content, 'plain'))
@@ -231,6 +235,6 @@ session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
 session.starttls() #enable security
 session.login(sender_address, sender_pass) #login with mail_id and password
 text = message.as_string()
-session.sendmail(sender_address, receiver_address, text)
+session.sendmail(sender_address, rcpt, text)
 session.quit()
 print('Mail Sent')
