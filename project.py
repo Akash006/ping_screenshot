@@ -157,7 +157,7 @@ def start():
 
         driver.close()
         
-    except Exceptioin as e:
+    except Exception as e:
         print("Execption occurecd in Selenium code.")
 
     else:
